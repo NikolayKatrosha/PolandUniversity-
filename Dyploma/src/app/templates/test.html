@@ -1,0 +1,238 @@
+<!-- src/app/templates/test.html -->
+{% extends "base.html" %}
+
+{% block title %}
+  Test Mode
+{% endblock %}
+
+{% block content %}
+
+<div id="content-test" style="position:relative;">
+  <div id="map-test"></div>
+  <div id="sidebar">
+    <h2>Test Mode</h2>
+    <select id="city-select-test">
+      {% for city in cities %}
+        <option value="{{ city }}">{{ city }}</option>
+      {% endfor %}
+    </select>
+    <button id="load-city-test">Load City</button>
+    <button id="reset-city-test">Reset City</button>
+
+    <h3>Select number of points:</h3>
+    <button id="test-5">5 points</button>
+    <button id="test-10">10 points</button>
+    <button id="test-15">15 points</button>
+    <button id="test-20">20 points</button>
+
+    <label class="toggle-switch" style="display:inline-flex; align-items:center; gap:8px;">
+      <input type="checkbox" id="show-all-nodes-test-checkbox" />
+      <span class="slider"></span>
+      <span>Show All Nodes</span>
+    </label>
+
+    <button id="run-all-algos">Run All Algorithms</button>
+    
+
+    <h3>Selected Points:</h3>
+    <ul id="selected-points-list-test"></ul>
+
+    <div id="legend-test" style="
+      display:none; position:absolute; right:20px; bottom:100px; z-index:999;
+      background:rgba(255,255,255,0.9); border:1px solid #ccc; padding:10px;
+      box-shadow:0 2px 6px rgba(0,0,0,0.3);">
+      <h4 style="margin-top:0;">Legend (Test)</h4>
+      <ul id="legend-test-list" style="margin:0; padding-left:20px;"></ul>
+    </div>
+  </div>
+
+  <div id="test-route-info-panel"
+       style="display:none; position:absolute; right:20px; bottom:20px; z-index:999;
+              width:350px; background:rgba(255,255,255,0.9); border:1px solid #ccc;
+              padding:10px 16px; box-shadow:0 2px 8px rgba(0,0,0,0.2);">
+    <h3 style="margin-top:0;">Route Information</h3>
+    <h3 id="test-route-algo-name" style="margin:0;"></h3>
+    <p id="test-route-distance" style="margin:4px 0;"></p>
+    <p id="test-route-time" style="margin:4px 0;"></p>
+    <h4 style="margin:6px 0;">Optimized Route Order:</h4>
+    <div id="test-route-order-container">
+      <ul id="test-route-order"></ul>
+    </div>
+    <div id="test-route-buttons" class="nice-buttons-container">
+      <button id="test-route-back">BACK</button>
+      <button id="test-route-prev">PREVIOUS</button>
+      <button id="test-route-next">NEXT</button>
+    </div>
+  </div>
+</div>
+
+
+<!-- Analysis Modal -->
+<div id="analysis-modal" class="modal">
+  <div class="modal-content">
+    <span id="analysis-close" class="modal-close">&times;</span>
+    <h2>Analysis</h2>
+    <table id="route-data-table">
+      <thead>
+        <tr>
+          <th>Algorithm</th>
+          <th>Distance (km)</th>
+          <th>Time (min)</th>
+          <th>Points</th>
+          <th>Nodes</th>
+          <th>Compute (s)</th>
+        </tr>
+      </thead>
+      <tbody id="route-data-tbody"></tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Advanced Stats Modal -->
+<div id="advanced-stats-modal" class="modal">
+  <div class="modal-content">
+    <span id="advanced-stats-close" class="modal-close">&times;</span>
+    <h2>Advanced Stats</h2>
+    <div id="advanced-stats-placeholder" style="padding:10px;"></div>
+  </div>
+</div>
+
+<div id="batch-menu" class="batch-menu">
+  <div class="batch-menu-inner">
+    <h2>Batch Testing</h2>
+    <div class="row-input">
+      <label for="batch-points-slider">Number of points:</label>
+      <input type="range" id="batch-points-slider" min="2" max="20" step="1" value="5" />
+      <span id="batch-points-value">5</span>
+    </div>
+    <div class="row-input">
+      <label for="batch-repeats">Repeats:</label>
+      <input type="number" id="batch-repeats" value="3" min="1" max="1000" />
+    </div>
+    <div class="algo-container">
+      <h4>Select algorithms:</h4>
+      <label><input type="checkbox" name="batch-algos" value="Christofides Algorithm" checked>Christofides</label>
+      <label><input type="checkbox" name="batch-algos" value="Greedy Algorithm" checked>Greedy</label>
+      <label><input type="checkbox" name="batch-algos" value="Nearest Neighbor" checked>Nearest Neighbor</label>
+      <label style="display: inline-flex; align-items: center; gap:4px;">
+        <input type="checkbox" name="batch-algos" value="Simulated Annealing" checked>
+        Simulated Annealing
+        <span class="sa-info"
+              style="cursor:help; color:#666;"
+              title="Simulated Annealing requires at least 5 points.">
+          ?
+        </span>
+      </label>
+      
+      <label style="display: inline-flex; align-items: center; gap:4px;">
+        <input type="checkbox" name="batch-algos" value="Brute Force" checked>
+        Brute Force
+        <span class="bf-info"
+              style="cursor:help; color:#666;"
+              title="Due to high complexity, max points = 10 when Brute Force is selected.">
+          ?
+        </span>
+      </label>
+      <label style="display: inline-flex; align-items: center; gap:4px;">
+        <input type="checkbox" name="batch-algos" value="2-opt Heuristic" checked>
+        2-opt Heuristic
+      </label>
+    </div>
+    <div class="batch-buttons-row">
+      <button id="batch-start-btn" class="nice-button">Start</button>
+      <button id="batch-close-btn" class="nice-button close-btn">Close</button>
+    </div>
+  </div>
+</div>
+
+<!-- "batch-results-menu" (modified) -->
+<div id="batch-results-menu"
+     style="
+       display: none;
+       position: absolute;
+       top: 290px;
+       right: 20px;
+       width: 220px;
+       background: #fff;
+       border: 1px solid #ccc;
+       border-radius: 6px;
+       padding: 10px;
+       box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+       z-index: 999999;
+     ">
+ <h3 style="margin-top: 0; margin-bottom: 10px; text-align: center;">Batch Menu</h3>
+  
+  <button id="batch-graphs-btn" style="width:100%; margin-bottom:8px;">Graphs</button>
+  <button id="batch-info-btn" style="width:100%; margin-bottom:8px;">Information</button>
+  <button id="batch-table-btn" style="width:100%; margin-bottom:8px;">Table</button>
+  <button id="batch-save-btn" style="width:100%; margin-bottom:8px;">Save</button>
+  <button id="batch-panel-close" class="btnpanel-close" style="width:50%; margin:auto">Close</button>
+</div>
+
+<!-- Graphs Modal -->
+<div id="graphsModal" style="display:none; position:fixed; top:10%; left:10%; width:80%; height:80%;
+     background-color:white; border:1px solid #ccc; z-index:99999; overflow:auto;">
+  <button id="graphsModal-close" style="float:right;">Close</button>
+  <h3>My Graphs</h3>
+
+  <div id="scatter-plot-container" style="width:100%; height: 450px;"></div>
+
+  <div id="histogram-container" style="margin-top:20px;">
+    <h4 style="margin:0 0 8px 0;">Toggle Algos:</h4>
+    <div id="algo-checkbox-container" style="padding:10px;"></div>
+  </div>
+</div>
+
+<!-- Bottom Panel -->
+<div id="bottom-panel" style="display:none; width:445px;">
+  <div id="bottom-panel-inner">
+    <button id="show-route-data-btn" class="nice-button">Analysis</button>
+    <button id="analysis-btn-2" class="nice-button">Advanced Stats</button>
+    <button id="batch-testing-btn" class="nice-button">Batch Testing</button>
+    <button id="big-test-btn" class="nice-button">Big Test</button>
+  </div>
+</div>
+
+<!-- Big Test modal -->
+<div id="big-test-menu" class="batch-menu">
+  <div class="batch-menu-inner">
+    <h2>Big Test</h2>
+    <div class="row-input">
+      <label for="big-test-repeats-slider">Repeats per points-size:</label>
+      <input type="range" id="big-test-repeats-slider" min="1" max="200" step="1" value="50"/>
+      <span id="big-test-repeats-value">50</span>
+    </div>
+    <div class="batch-buttons-row">
+      <button id="big-test-start-btn" class="nice-button">Start</button>
+      <button id="big-test-close-btn" class="nice-button close-btn">Close</button>
+    </div>
+  </div>
+</div>
+
+<!-- Fancy Modal for table -->
+<div id="batch-table-modal" class="fancy-modal">
+  <div class="fancy-modal-content" style="min-width: 700px;">
+    <span id="batch-table-close" class="fancy-modal-close">&times;</span>
+    <h2>Batch Table Results</h2>
+    
+    <div class="table-scroll-container">
+      <table id="batch-table" style="width:100%; border-collapse: collapse; text-align:center;">
+        <thead>
+          <tr style="background-color: #eee;">
+            <th style="padding: 8px;">#</th>
+            <th style="padding: 8px;">Iteration</th> 
+            <th style="padding: 8px;">Algorithm</th>
+            <th style="padding: 8px;">Distance (m)</th>
+            <th style="padding: 8px;">Time (min)</th>
+            <th style="padding: 8px;">Nodes</th>
+            <th style="padding: 8px;">Compute (s)</th>
+          </tr>
+        </thead>
+        <tbody id="batch-table-tbody">
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

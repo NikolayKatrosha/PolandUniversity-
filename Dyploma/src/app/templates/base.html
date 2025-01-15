@@ -1,0 +1,124 @@
+<!-- src/app/templates/base.html -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>{% block title %}Map Application{% endblock %}</title>
+
+  <!-- Leaflet CSS -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+  <!-- MarkerCluster CSS -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.css" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.Default.css" />
+  <!-- Leaflet FullScreen CSS -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet.fullscreen@1.6.0/Control.FullScreen.css" />
+
+  <!-- Our CSS -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/base.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/map.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/buttons.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/about_author.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/about_project.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/effects.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/stars.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/cat.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/circle_button.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/light_button.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/test_map.css') }}">
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+
+  <!-- jQuery for menu toggles -->
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+
+<body>
+
+  <!-- Navigation Menu -->
+  <nav>
+    <div class="wrapper">
+      <ul>
+        <li>
+          <div id="menu-button">
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
+          </div>
+        </li>
+        <li>
+          <a href="{{ url_for('routes_bp.map_page') }}">
+            Map
+          </a>
+        </li>
+        <li>
+          <a href="{{ url_for('routes_bp.author_page') }}">
+            Author
+          </a>
+        </li>
+        <li>
+          <a href="{{ url_for('routes_bp.project_page') }}">
+            Project
+          </a>
+        </li>
+        <li>
+          <a href="{{ url_for('test_bp.test_page') }}">
+            Test
+          </a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- Loading overlay with a truck animation -->
+  <div id="loading-overlay" style="display: none;">
+    <div class="loop-wrapper">
+      <div class="mountain"></div>
+      <div class="hill"></div>
+      <div class="tree"></div>
+      <div class="tree"></div>
+      <div class="truck"></div>
+      <div class="wheels"></div>
+    </div>
+    <div class="loading-text">
+      <span>L</span><span>O</span><span>A</span><span>D</span><span>I</span><span>N</span><span>G</span>
+    </div>
+
+    <!-- Progress bar area -->
+    <div id="loading-progress-container" style="display: none; text-align:center;">
+      <div id="loading-progress-bar" style="width:300px; margin:auto; background:#ccc;">
+        <div id="loading-progress-fill" style="
+          width:0%;
+          height:20px;
+          background-color:#3b7ab4;">
+        </div>
+      </div>
+      <div id="loading-progress-text" style="color:#fff; font-weight:bold; margin-top:4px;">
+        0 / 0
+      </div>
+    </div>
+  </div>
+
+  <!-- Child templates will insert their content here -->
+  {% block content %}{% endblock %}
+
+  <!-- Leaflet / MarkerCluster / FullScreen JS -->
+  <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+  <script src="https://unpkg.com/leaflet.markercluster@1.5.3/dist/leaflet.markercluster.js"></script>
+  <script src="https://unpkg.com/leaflet.fullscreen@1.6.0/Control.FullScreen.js"></script>
+  <script src="https://cdn.plot.ly/plotly-2.22.0.min.js"></script>
+
+  <!-- Our JS scripts -->
+  <script src="{{ url_for('static', filename='js/map_init.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/ui_controls.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/map_interactions.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/author_interactions.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/test_interactions.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/batch_testing.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/test_btn_interactions.js') }}"></script>
+
+</body>
+</html>

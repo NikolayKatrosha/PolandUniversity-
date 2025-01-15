@@ -1,0 +1,74 @@
+<!-- src/app/templates/map.html -->
+{% extends "base.html" %}
+
+{% block title %}
+  Map Page
+{% endblock %}
+
+{% block content %}
+
+<!-- Map Content -->
+<div id="content-map">
+
+  <!-- Map Element -->
+  <div id="map"></div>
+
+  <!-- Sidebar -->
+  <div id="sidebar">
+    <h2>Map Mode</h2>
+    <select id="city-select">
+      {% for city in cities %}
+        <option value="{{ city }}">{{ city }}</option>
+      {% endfor %}
+    </select>
+    <button id="load-city">Load City</button>
+    <button id="reset-city">Reset City</button>
+
+    <input type="text" id="search-input" placeholder="Search by address" />
+    <button id="search-button">Search</button>
+    <h3>Select algorithm:</h3>
+    <select id="algorithm-select">
+      {% for algo in algorithms %}
+        <option value="{{ algo }}">{{ algo }}</option>
+      {% endfor %}
+    </select>
+
+    <!-- Selected Points List -->
+    <ul id="selected-points-list"></ul>
+    <button id="toggle-neighbors">Show Neighbors</button>
+    <label><input type="radio" name="problem-type" id="problem-tsp" style="margin-top:11px;" value="tsp" checked> TSP</label>
+    <label><input type="radio" name="problem-type" id="problem-vrp" style="margin-top:11px;" value="vrp"> VRP</label>
+    <select id="num-trucks" style="margin-top:10px;">
+      <option value="1">1 Truck</option>
+      <option value="2">2 Trucks</option>
+      <option value="3">3 Trucks</option>
+      <option value="4">4 Trucks</option>
+      <option value="5">5 Trucks</option>
+    </select>
+    <button id="calculate-route">Calculate Route</button>
+  </div>
+
+  <!-- Route Information -->
+  <div id="route-info" style="display: none;">
+    <h3>Route Information</h3>
+    <p id="route-distance"></p>
+    <p id="route-time"></p>
+    <h4>Optimized Route Order:</h4>
+    <ul id="route-order-list"></ul>
+  </div>
+
+  <!-- Legend -->
+  <div id="legend" style="display: none;">
+    <h4>Route Legend</h4>
+    <ul>
+      <li><span class="legend-line" style="background-color: purple;"></span> Main Route</li>
+      <li><span class="legend-dashed-line" style="border-top: 2px dashed black;"></span> Return Path</li>
+      <li><span class="legend-icon" style="background-color: white; border:1px solid black;">1</span> Point Order</li>
+    </ul>
+  </div>
+</div>
+
+<!-- Back button to clear route -->
+<button id="clear-route" style="display: none;">Back</button>
+
+{% endblock %}

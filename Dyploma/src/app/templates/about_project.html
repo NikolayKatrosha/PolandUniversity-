@@ -1,0 +1,23 @@
+<!-- src/app/templates/about_project.html -->
+{% extends "base.html" %}
+
+{% block title %}
+  About Project
+{% endblock %}
+
+{% block content %}
+<div id="content-about-project">
+  <!-- Main container with some descriptive text about the diploma project -->
+  <div class="project-info-container"
+       style="padding:40px; max-width:800px; margin:0 auto;
+              line-height:1.6; font-family:'Open Sans',sans-serif;
+              color:rgb(195,220,251);">
+    <h1 class="about-title">Diploma Project Overview</h1>
+    <div class="about-description">
+      <p>This diploma project focuses on developing an application for route optimization in large urban areas. It leverages various advanced algorithms, including both exact and heuristic methods, to demonstrate efficient path planning for delivery services or other logistical tasks.</p>
+      <p>Within the application, users can load real-world city data, select specific points of interest, and generate a route optimized under different strategies. The software aims to provide a deep understanding of how algorithms compare in speed, accuracy, and scalability.</p>
+      <p>Future extensions may include multi-depot planning, time-window constraints, or fleet size variations, all of which are crucial topics in modern transportation and supply chain management. Ultimately, this diploma project serves as both an educational platform and a foundation for more advanced logistics software.</p>
+    </div>
+  </div>
+</div>
+{% endblock %}

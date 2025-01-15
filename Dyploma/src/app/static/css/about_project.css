@@ -1,0 +1,26 @@
+/* Styles for the "About Project" section */
+#content-about-project {
+  color: white;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.about-title {
+  font-size: 2rem;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.about-description {
+  font-size: 1.2rem;
+  max-width: 800px;
+  text-align: justify;
+  line-height: 1.6;
+  margin: 0 auto;
+  padding: 20px;
+  background: rgba(0, 0, 0, 0.5);
+  border-radius: 10px;
+}

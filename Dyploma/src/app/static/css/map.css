@@ -1,0 +1,607 @@
+/* Styles related to the main map page, sidebar, route info, legend */
+
+/* Main map container */
+#map {
+  width: 100%;
+  height: 100vh;
+  position: relative;
+}
+
+/* Sidebar with options and selected points */
+#sidebar {
+  position: absolute;
+  top: 60px;
+  left: 0;
+  width: 300px;
+  height: calc(100vh - 60px);
+  overflow-y: auto;
+  padding: 20px;
+  box-sizing: border-box;
+  background: rgba(247, 247, 247, 0.9);
+  border-right: 1px solid #ddd;
+  z-index: 1000;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+#sidebar h2 {
+  margin-top: 0;
+  font-size: 24px;
+  color: var(--text-color, #333);
+}
+
+/* List of selected points */
+#selected-points-list {
+  list-style-type: none;
+  padding: 0;
+  max-height: 200px;
+  border-radius: 6px;
+  overflow-y: auto;
+}
+
+#selected-points-list li {
+  margin-bottom: 10px;
+  padding: 8px;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  color: #333;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+#selected-points-list li:hover {
+  background-color: #f0f0f0;
+}
+
+#selected-points-list button {
+  margin-top: 0;
+  padding: 5px 10px;
+  font-size: 14px;
+  background-color: #d9534f;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+#selected-points-list button:hover {
+  background-color: #c9302c;
+}
+
+/* Generic buttons used in the sidebar, etc. */
+button {
+  display: block;
+  margin-top: 10px;
+  padding: 10px 15px;
+  font-size: 16px;
+  background-color: #337ab7;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #286090;
+}
+
+/* Dropdowns and search input */
+#city-select,
+#algorithm-select,
+#search-input {
+  width: 90%;
+  padding: 8px;
+  margin-top: 10px;
+  font-size: 16px;
+}
+
+#search-input {
+  margin-bottom: 10px;
+}
+
+/* Clear-route (Back) button */
+#clear-route {
+  padding: 10px 15px;
+  font-size: 16px;
+  background-color: #d9534f;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 9999;
+}
+
+#clear-route:hover {
+  background-color: #c9302c;
+}
+
+/* Route info panel on the main map */
+#route-info {
+  position: absolute;
+  bottom: 20px;
+  left: 20px;
+  background: rgba(255, 255, 255, 0.8);
+  padding: 15px;
+  border-radius: 8px;
+  z-index: 1000;
+}
+
+#route-info h3 {
+  margin-top: 0;
+}
+
+#route-order-list {
+  list-style-type: decimal;
+  margin: 0;
+  padding-left: 20px;
+}
+
+#route-order-list li {
+  margin-bottom: 5px;
+}
+
+/* Legend (main map, bottom-right corner) */
+#legend {
+  position: absolute;
+  bottom: 30px;
+  right: 30px;
+  background: white;
+  padding: 10px;
+  border: 1px solid #ccc;
+  z-index: 1000;
+  border-radius: 10px;
+}
+
+#legend h4 {
+  margin-top: 0;
+  font-size: 16px;
+}
+
+#legend ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+#legend li {
+  display: flex;
+  align-items: center;
+  margin-bottom: 5px;
+}
+
+.legend-line {
+  display: inline-block;
+  width: 30px;
+  height: 4px;
+  margin-right: 8px;
+}
+
+.legend-dashed-line {
+  display: inline-block;
+  width: 30px;
+  height: 0;
+  border-top: 2px dashed purple;
+  margin-right: 8px;
+}
+
+.legend-icon {
+  display: inline-block;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  text-align: center;
+  line-height: 24px;
+  margin-right: 8px;
+  font-weight: bold;
+  border: 1px solid black;
+}
+
+/* Navigation menu (burger style) */
+.wrapper {
+  display: inline-block;
+  position: relative;
+}
+
+nav {
+  position: absolute;
+  top: -26px;
+  left: -20px;
+  z-index: 9999;
+  padding: 10px;
+}
+
+nav ul li {
+  width: 100px;
+  height: 60px;
+  background: #fff;
+  position: absolute;
+  left: 0;
+  transform: translateX(-50%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 15px 0 30px -5px rgba(0,0,0,0.2);
+  cursor: pointer;
+  color: #343436;
+  opacity: 0;
+  padding-left: 15px;
+  font-family: 'Oswald', sans-serif;
+  font-size: 16px;
+  text-decoration: none;
+}
+
+nav ul li a {
+  text-decoration: none;
+  color: #343436;
+  display: inline-block;
+  width: 100%;
+  text-align: center;
+  white-space: nowrap;
+  line-height: 60px;
+  overflow: hidden;
+}
+
+/* The first li is always the visible burger button */
+nav ul li:first-child {
+  padding-left: 0;
+  z-index: 10;
+  opacity: 1;
+  width: 60px;
+  transform: translateX(0);
+}
+
+nav ul li:after {
+  content: '';
+  display: inline-block;
+  position: absolute;
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-width: 30px 0 30px 15px;
+  border-color: transparent transparent transparent #fff;
+  right: -15px;
+  top: 0;
+}
+
+/* Burger menu lines */
+#menu-button .bar {
+  width: 20px;
+  height: 2px;
+  background: #343436;
+  transition: 0.3s linear;
+}
+#menu-button .bar:nth-child(2) {
+  margin: 5px 0;
+}
+
+/* Animations for the burger lines */
+#menu-button.active .bar:first-child {
+  animation: barOne 0.4s ease-in-out forwards;
+}
+#menu-button.active .bar:last-child {
+  animation: barTwo 0.4s ease-in-out forwards;
+}
+#menu-button.active .bar:nth-child(2) {
+  transform: scale(0);
+}
+
+@keyframes barOne {
+  0% {
+    transform: none;
+  }
+  25% {
+    transform: translateY(7px);
+  }
+  100% {
+    transform: translateY(7px) rotate(45deg);
+  }
+}
+
+@keyframes barTwo {
+  0% {
+    transform: none;
+  }
+  25% {
+    transform: translateY(-7px);
+  }
+  100% {
+    transform: translateY(-7px) rotate(-45deg);
+  }
+}
+
+@media screen and (max-width: 467px) {
+  nav ul {
+      transform: rotate(90deg);
+  }
+}
+
+/* Bottom panel (for batch testing, etc.) */
+#bottom-panel {
+  display: none;
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 600px;
+  height: 50px;
+  background: rgba(0, 0, 0, 0.5);
+  border-radius: 6px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+  z-index: 9999;
+  align-items: center;
+  justify-content: center;
+}
+
+#bottom-panel-inner {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+}
+
+/* Additional fancy button styles */
+.nice-buttons-container {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 12px;
+  z-index: 999;
+}
+
+.nice-button {
+  min-width: 80px;
+  height: 36px;
+  padding: 0 10px;
+  background-color: #3b7ab4;
+  color: #ECECEC;
+  border: none;
+  border-radius: 6px;
+  font-family: "Open Sans", sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+  cursor: pointer;
+  transition: background-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+  margin-top: 0;
+}
+
+.nice-button:hover {
+  background-color: #081427;
+  box-shadow: 0 3px 8px rgba(0,0,0,0.2);
+  transform: translateY(-2px);
+}
+
+.nice-button:active {
+  transform: translateY(0px);
+  box-shadow: none;
+}
+
+.nice-button:focus {
+  outline: 2px solid #A6C0BF;
+  outline-offset: 2px;
+}
+
+/* Fancy modal for advanced data, etc. */
+.fancy-modal {
+  display: none;
+  position: fixed;
+  z-index: 99999;
+  left: 0; 
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0,0,0,0.6);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.fancy-modal.open {
+  display: block;
+  opacity: 1;
+}
+
+/* White modal content box */
+.fancy-modal-content {
+  background: #fff;
+  max-width: 600px;
+  width: 80%;
+  margin: 60px auto;
+  border-radius: 8px;
+  padding: 20px 30px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+  position: relative;
+  transform: translateY(50px);
+  transition: transform 0.3s ease;
+}
+
+.fancy-modal.open .fancy-modal-content {
+  transform: translateY(0);
+}
+
+/* Close button (X) inside fancy modal */
+.fancy-modal-close {
+  position: absolute;
+  right: 15px;
+  top: 15px;
+  font-size: 24px;
+  font-weight: bold;
+  cursor: pointer;
+  color: #999;
+}
+
+.fancy-modal-close:hover {
+  color: #333;
+}
+
+/* Example table styling */
+#route-data-table th, #route-data-table td {
+  border: 1px solid #ccc;
+  padding: 8px 10px;
+  text-align: center;
+}
+
+#route-data-table th {
+  background: #f1f1f1;
+}
+
+/* Batch menu styling */
+.batch-menu {
+  position: fixed;
+  top: -600px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 360px;
+  background: rgba(255, 255, 255, 0.98);
+  transition: top 0.4s ease, opacity 0.4s ease;
+  opacity: 0;
+  z-index: 9999;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+  border-radius: 10px;
+  padding: 16px;
+}
+
+.batch-menu.open {
+  top: 50px; /* slides down */
+  opacity: 1;
+}
+
+.batch-menu-inner {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* Common style for slider inputs, text inputs, etc. */
+.row-input {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 8px;
+}
+
+/* Algorithms area in a gray box */
+.algo-container {
+  background: #f7f7f7;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  padding: 8px 12px;
+}
+
+.algo-container label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin: 4px 0;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.algo-container input[type="checkbox"] {
+  cursor: pointer;
+}
+
+/* Buttons row for Start / Close */
+.batch-buttons-row {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.batch-buttons-row button {
+  min-width: 70px;
+  padding: 6px 12px;
+  border: none;
+  border-radius: 6px;
+  font-family: "Open Sans", sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  margin-left: 59%;
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+/* Start button (blue) */
+.batch-buttons-row button#batch-start-btn {
+  background-color: #3b7ab4;
+  color: #fff;
+}
+
+.batch-buttons-row button#batch-start-btn:hover {
+  background-color: #008cff;
+  transform: translateY(-2px);
+}
+
+.batch-buttons-row button#batch-start-btn:active {
+  transform: translateY(0);
+}
+
+/* Close button (red/gray) */
+.close-btn {
+  background-color: #aa5b5b;
+  color: #fff;
+}
+
+.close-btn:hover {
+  background-color: #ff0000;
+  transform: translateY(2px);
+}
+
+.close-btn:active {
+  transform: translateY(0);
+}
+
+/* Panel close button in batch results */
+.btnpanel-close {
+  background-color: #aa5b5b;
+  color: #fff;
+}
+.btnpanel-close:hover {
+  background-color: #ff0000;
+}
+
+/* Batch progress panel */
+#batch-progress-panel {
+  display: none;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 400px;
+  height: 80px;
+  background-color: rgba(255, 255, 255, 0.9);
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+  z-index: 99999;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+#batch-progress-fill {
+  width: 0%;
+  height: 20px;
+  background-color: #3b7ab4;
+  border-radius: 4px;
+  transition: width 0.3s ease;
+}
+
+#batch-progress-status {
+  margin-top: 10px;
+  font-weight: bold;
+  color: #333;
+  font-size: 14px;
+}
+
+#test-route-order-container {
+  max-height: 200px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 8px;
+  background-color: #fff;
+}
